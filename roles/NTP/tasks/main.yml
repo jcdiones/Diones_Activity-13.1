@@ -1,0 +1,13 @@
+---
+
+- name: install NTP package
+  tags: ubuntu
+  apt:
+    name: chrony
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: "NTP- Restarting/Enabling"
+  service:
+    name: chrony
+    state: restarted

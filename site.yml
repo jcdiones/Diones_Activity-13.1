@@ -1,0 +1,26 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: compute
+  become: true
+  roles:
+    - NTP
+    - openstack
+    - sql
+
+- hosts: controller
+  become: true
+  roles:
+    - message
+    - memcached
+    - etcd

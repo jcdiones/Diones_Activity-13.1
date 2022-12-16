@@ -1,0 +1,25 @@
+---
+
+- name: install sql database package (Ubuntu)
+  tags: ubuntu, db,mariadb
+  apt:
+    name:
+      - mariadb-server
+      - python3-pymysql
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: copy 99-openstack conf for site
+  tags: ubuntu, db,mariadb
+  copy:
+    src: 99-openstack.cnf
+    dest: /etc/mysql/mariadb.conf.d
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "SQLdatabase- Restarting/Enabling"
+  become: yes
+  service:
+    name: mysql
+    state: restarted

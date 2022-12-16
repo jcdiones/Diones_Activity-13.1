@@ -1,0 +1,86 @@
+---
+
+- name: install Etcd for Ubuntu
+  tags: ubuntu
+  apt:
+    name: etcd
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: edit a file in file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_NAME="default"'
+    line: 'ETCD_NAME="controller"'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: edit a file in file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_DATA_DIR="/var/lib/etcd/default"'
+    line: 'ETCD_DATA_DIR="/var/lib/etcd"'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: edit a file in file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"'
+    line: 'ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster-01"'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: edit a file in file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_INITIAL_CLUSTER="default=http://localhost:2380"'
+    line: 'ETCD_INITIAL_CLUSTER="controller=http://10.0.0.11:2380"'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: edit a file in file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_INITIAL_ADVERTISE_PEER_URLS="http://localhost:2380"'
+    line: 'ETCD_INITIAL_ADVERTISE_PEER_URLS="http://10.0.0.11:2380"'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: edit a file in file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_ADVERTISE_CLIENT_URLS="http://localhost:2379"'
+    line: 'ETCD_ADVERTISE_CLIENT_URLS="http://10.0.0.11:2379"'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: edit a file in file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_LISTEN_PEER_URLS="http://localhost:2380"'
+    line: 'ETCD_LISTEN_PEER_URLS="http://0.0.0.0:2380"'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: edit a file in file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_LISTEN_CLIENT_URLS="http://localhost:2379"'
+    line: 'ETCD_LISTEN_CLIENT_URLS="http://10.0.0.11:2379"'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: "Etcd- Restarting/Enabling"
+  service:
+    name: etcd
+    state: restarted
+    enabled: true

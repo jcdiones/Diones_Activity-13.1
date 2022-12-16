@@ -1,0 +1,8 @@
+---
+
+- name: intall Openstack packages
+  tags: ubuntu
+  apt:
+    name: python3-openstackclient
+    state: latest
+  when: ansible_distribution == "Ubuntu"

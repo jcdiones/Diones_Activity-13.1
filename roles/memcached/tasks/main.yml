@@ -1,0 +1,24 @@
+---
+
+- name: install Memcached (Ubuntu)
+  tags: ubuntu
+  apt:
+    name:
+      - memcached
+      - libmemcached-tools
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: edit a line in file
+  lineinfile:
+    path: /etc/memcached.conf
+    regexp: '-l 127.0.0.1'
+    line: '-l 10.0.0.11'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: "Memcached- Restarting/Enabling"
+  service:
+    name: memcached
+    state: restarted
